@@ -2,7 +2,8 @@ package test;
 
 public class testBinarySearch {
 
-	public static int binarySearch(int[] arr, int start, int end, int key)
+	// Recursive
+	public static int binarySearchRec(int[] arr, int start, int end, int key)
 	{
 		if(start>end)
 		{
@@ -13,23 +14,48 @@ public class testBinarySearch {
 		
 		if(arr[middle]<key)
 		{
-			return binarySearch(arr,middle+1,end,key);
+			return binarySearchRec(arr,middle+1,end,key);
 		}
 		else if(key<arr[middle])
 		{
-			return binarySearch(arr,start,middle-1,key);
+			return binarySearchRec(arr,start,middle-1,key);
 		}
 		else
 		{
 			return middle;
 		}
 	}
+	
+	// Iterative
+	public static int binarySearchIt(int[] arr, int start, int end, int key)
+	{
+		while(start<=end)
+		{
+			int middle = start + (end-start)/2;
+			
+			if(arr[middle] < key)
+			{
+				start = middle + 1;
+			}
+			else if(arr[middle]>key)
+			{
+				end = middle - 1;
+			}
+			else
+			{
+				return middle;
+			}
+		}
+		return -1;
+	}
 
 	public static void main(String[] args) 
 	{
 		int[] arr = new int[] {1,2,3,4,5,6,7,8,100,1000};
 		
-		System.out.println(binarySearch(arr,0,arr.length-1,1000));
+		System.out.println("Recursive = " + binarySearchRec(arr,0,arr.length-1,1000));
+		System.out.println("Iterative = " + binarySearchIt(arr,0,arr.length-1,1000));
+		
 		
 	}
 
