@@ -1,6 +1,10 @@
 package test;
 
+import java.util.Random;
+
 public class testSorting {
+	
+	static Random r = new Random();
 
 	static void swap(int[] arr, int i, int j)
 	{
@@ -131,7 +135,13 @@ public class testSorting {
 	
 	private static int partition(int arr[], int begin, int end)
 	{
-	    int pivot = arr[end];
+		// Choose a random pivot
+		int rpivot = r.nextInt(end - begin) + begin;
+		swap(arr,rpivot,end);
+		rpivot =end;
+		
+		int pivot = arr[rpivot];
+		
 	    int i = (begin-1);
 
 	    for (int j = begin; j < end; j++) 
@@ -143,6 +153,7 @@ public class testSorting {
 	        }
 	    }
 	    swap(arr,i+1,end);
+	    
 	    return i+1;
 	}
 	
@@ -209,23 +220,19 @@ public class testSorting {
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		
-		//int[] a = new int[] {3,10,2,23,1,4,9,6};
 		int[] a = new int[] {3,1,9,2,4,5};
-		int[] b;
-		//System.out.print("begin: ");
-		//print(a);
+		System.out.print("begin: ");
+		print(a);
 		long s = System.nanoTime();
 		quickSort(a,0,a.length-1);
 		long e =System.nanoTime();
-		System.out.print("end:     ");
+		System.out.print("end:   ");
         print(a);
-		System.out.println("Time taken (shell sort): "+ (e-s) +" nanoseconds");
+		System.out.println("Time taken (quicksort sort): "+ (e-s) +" nanoseconds");
 		
-		
-		
-
 	}
 
 }
