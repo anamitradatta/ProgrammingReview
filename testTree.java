@@ -2,6 +2,7 @@ package test;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class testTree {
 	
@@ -121,24 +122,102 @@ public class testTree {
 		System.out.print(n.getVal()+" ");
 	}
 	
+	public void dfsIterInOrder(Node root)
+	{
+		Stack<Node> stack = new Stack<Node>();
+		Node current = root;
+		
+		while(current!=null || !stack.isEmpty())
+		{
+			if(current!=null)
+			{
+				stack.push(current);
+				current = current.getLeft();
+			}
+			else
+			{
+				current = stack.pop();
+				System.out.print(current.getVal() + " ");
+				current = current.getRight();
+			}
+		}
+	}
+	
+	public void dfsIterPreOrder(Node root)
+	{
+		Stack<Node> stack = new Stack<Node>();
+		Node current = root;
+		
+		while(current!=null || !stack.isEmpty())
+		{
+			if(current!=null)
+			{
+				System.out.print(current.getVal() + " ");
+				stack.push(current);
+				current = current.getLeft();
+			}
+			else
+			{
+				current = stack.pop();
+				current = current.getRight();
+				
+			}
+		}
+	}
+	
+	public void dfsIterPostOrder(Node root)
+	{
+		Stack<Node> stack = new Stack<Node>();
+		Stack<Node> rightstack = new Stack<Node>();
+		Node current = root;
+		
+		while(current!=null || !stack.isEmpty())
+		{
+			if(current!=null)
+			{
+				if(current.getRight()!=null)
+				{
+					rightstack.push(current.getRight());
+				}
+				stack.push(current);
+				current = current.getLeft();
+			}
+			else
+			{
+				current = stack.peek();
+				if(!rightstack.isEmpty() && current.getRight() == rightstack.peek())
+				{
+					current = rightstack.pop();
+				}
+				else
+				{
+					System.out.print(current.getVal() + " ");
+					stack.pop();
+					current=null;
+				}
+			}
+		}
+	}
+	
 	public void bfs(Node root) 
 	{
 	      Queue<Node> queue = new LinkedList<Node>();
-	      queue.add(root);
-	      while (!queue.isEmpty()) {
+	      queue.offer(root);
+	      while (!queue.isEmpty()) 
+	      {
 	          Node temp = queue.poll();
 	          System.out.print(temp.getVal() + " ");
 	 
-	          /*add left child to the queue */
+	          //add left child to the queue 
 	          if (temp.getLeft() != null) 
 	          {
-	              queue.add(temp.getLeft());
+	              queue.offer(temp.getLeft());
 	          }
 	 
-	          /*add right right child to the queue */
+	          //add right right child to the queue 
 	          if (temp.getRight() != null) 
 	          {
-	              queue.add(temp.getRight());
+	              queue.offer(temp.getRight());
 	          }
 	      }
 	  }
@@ -160,13 +239,13 @@ public class testTree {
 		t.getRoot().getLeft().setRight(r5);
 		t.getRoot().getRight().setLeft(r6);
 		t.getRoot().getRight().setRight(r7);
-		t.dfsInOrder(r1);
-		System.out.println();
-		t.dfsPreOrder(r1);
+		t.dfsIterPostOrder(r1);
 		System.out.println();
 		t.dfsPostOrder(r1);
-		System.out.println();
-		t.bfs(r1);
+		//System.out.println();
+		//t.dfsPostOrder(r1);
+		//System.out.println();
+		//t.bfs(r1);
 	}
 
 }
