@@ -160,7 +160,6 @@ public class testTree {
 			{
 				current = stack.pop();
 				current = current.getRight();
-				
 			}
 		}
 	}
@@ -168,34 +167,27 @@ public class testTree {
 	public void dfsIterPostOrder(Node root)
 	{
 		Stack<Node> stack = new Stack<Node>();
-		Stack<Node> rightstack = new Stack<Node>();
-		Node current = root;
+		Stack<Node> output = new Stack<Node>();
+		stack.push(root);
 		
-		while(current!=null || !stack.isEmpty())
+		while(!stack.isEmpty())
+		{	
+			Node current = stack.pop();
+			output.push(current);
+			
+			if(current.getLeft()!=null)
+			{
+				stack.push(current.getLeft());
+			}
+			
+			if(current.getRight()!=null)
+			{
+				stack.push(current.getRight());
+			}
+		}
+		while(!output.isEmpty())
 		{
-			if(current!=null)
-			{
-				if(current.getRight()!=null)
-				{
-					rightstack.push(current.getRight());
-				}
-				stack.push(current);
-				current = current.getLeft();
-			}
-			else
-			{
-				current = stack.peek();
-				if(!rightstack.isEmpty() && current.getRight() == rightstack.peek())
-				{
-					current = rightstack.pop();
-				}
-				else
-				{
-					System.out.print(current.getVal() + " ");
-					stack.pop();
-					current=null;
-				}
-			}
+			System.out.print(output.pop().getVal() + " ");
 		}
 	}
 	
@@ -239,8 +231,9 @@ public class testTree {
 		t.getRoot().getLeft().setRight(r5);
 		t.getRoot().getRight().setLeft(r6);
 		t.getRoot().getRight().setRight(r7);
+		System.out.println("DFS Iter Post Order:");
 		t.dfsIterPostOrder(r1);
-		System.out.println();
+		System.out.println("\nDFS Post Order:");
 		t.dfsPostOrder(r1);
 		//System.out.println();
 		//t.dfsPostOrder(r1);
