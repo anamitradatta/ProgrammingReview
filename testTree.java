@@ -141,6 +141,7 @@ public class testTree {
 				current = current.getRight();
 			}
 		}
+		System.out.println();
 	}
 	
 	public void dfsIterPreOrder(Node root)
@@ -162,6 +163,7 @@ public class testTree {
 				current = current.getRight();
 			}
 		}
+		System.out.println();
 	}
 	
 	public void dfsIterPostOrder(Node root)
@@ -182,13 +184,13 @@ public class testTree {
 				// check if right exists for last node
 				Node temp = stack.peek().getRight();
 				
-				// if no left or right child, pop 
+				// if no left or right child, we reached a leaf node
 				if(temp==null)
 				{
 					temp=stack.pop();
 					System.out.print(temp.getVal() + " ");
 					
-					// if we are on a right child, go to parent node
+					// if we are on a right child, go to parent node if no left node exists
 					while(!stack.isEmpty() && temp == stack.peek().getRight())
 					{
 						temp=stack.pop();
@@ -203,6 +205,53 @@ public class testTree {
 			}
 			
 		}
+		System.out.println();
+	}
+	
+	public void dfsIter(Node root)
+	{
+		Stack<Node> stack = new Stack<Node>();
+		stack.push(root);
+		
+		while(!stack.isEmpty())
+		{
+			Node temp = stack.pop();
+			System.out.print(temp.getVal() + " ");
+			
+			if(temp.getRight()!=null)
+			{
+				stack.push(temp.getRight());
+			}
+			
+			if(temp.getLeft()!=null)
+			{
+				stack.push(temp.getLeft());
+			}
+		}
+		System.out.println();
+	}
+	
+	public void bfsIter(Node root)
+	{
+		Queue<Node> queue = new LinkedList<Node>();
+		queue.offer(root);
+		
+		while(!queue.isEmpty())
+		{
+			Node temp = queue.poll();
+			System.out.print(temp.getVal() + " ");
+			
+			if(temp.getLeft()!=null)
+			{
+				queue.offer(temp.getLeft());
+			}
+			
+			if(temp.getRight()!=null)
+			{
+				queue.offer(temp.getRight());
+			}
+		}
+		System.out.println();
 	}
 	
 	public void bfs(Node root) 
@@ -226,6 +275,7 @@ public class testTree {
 	              queue.offer(temp.getRight());
 	          }
 	      }
+	      System.out.println();
 	  }
 
 	public static void main(String[] args) {
@@ -246,15 +296,7 @@ public class testTree {
 		t.getRoot().getLeft().setRight(r5);
 		t.getRoot().getRight().setLeft(r6);
 		t.getRoot().getRight().setRight(r7);
-		t.getRoot().getLeft().getLeft().setRight(r8);
-		System.out.println("DFS Iter Post Order:");
-		t.dfsIterPostOrder(r1);
-		System.out.println("\nDFS Post Order:");
-		t.dfsPostOrder(r1);
-		//System.out.println();
-		//t.dfsPostOrder(r1);
-		//System.out.println();
-		//t.bfs(r1);
+	    t.getRoot().getLeft().getLeft().setRight(r8);
 	}
 
 }
