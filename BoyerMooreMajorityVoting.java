@@ -1,8 +1,8 @@
 package test;
 
-public class BooreMooreMajorityVoting 
+public class BoyerMooreMajorityVoting 
 {
-	public static int booremoore(int[] arr)
+	public static int boyermoore(int[] arr)
 	{
 		int el = 0;
 		int count = 0;
@@ -31,7 +31,7 @@ public class BooreMooreMajorityVoting
 	{
 		int[] arr = {1,2,5,3,5,5,5,5,5,5,5,5,5,3,4,4,5,5,5,6,4,4,4,5,5,4,4,3,3,3,3,5,3};
 		
-		System.out.println(booremoore(arr));
+		System.out.println(boyermoore(arr));
 	}
 
 }
