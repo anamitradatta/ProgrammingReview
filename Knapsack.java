@@ -19,9 +19,9 @@ public class Knapsack {
 			m[j][0] = 0;
 		}
 		
-		for(int x=1;x<m.length;x++)
+		for(int x=1;x<=values.length;x++)
 		{
-			for(int y=0;y<m[x].length;y++)
+			for(int y=0;y<=capacity;y++)
 			{
 				if(weights[x-1] > y)
 				{
@@ -66,8 +66,8 @@ public class Knapsack {
 	
 	public static void main(String[] args) 
 	{
-		int[] values = {2,6,5,1};
-		int[] weights = {3,5,4,2};
+		int[] values = {2,6,5,100};
+		int[] weights = {3,5,4,8};
 		int capacity = 8;
 		int[] maxvalue = new int[1];
 		int[] maxcapacity = new int[1];
