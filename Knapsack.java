@@ -5,7 +5,30 @@ import java.util.Collections;
 
 public class Knapsack {
 
-	public static ArrayList<Integer> knapsack(int[] values, int[] weights, int capacity, int[] maxvalue, int[] maxcapacity)
+	public static int knapsackEF(int[] values, int[] weights, int capacity) 
+	{
+        int maxweight = 0;		
+		for(int i: weights)
+		{
+			maxweight+=i;
+		}
+	
+		int[] m = new int [maxweight+1];
+		for(int x=0;x<values.length;x++)
+		{
+			for(int y=maxweight;y>=0;y--)
+			{
+				if(weights[x]<=y)
+				{
+					m[y] = Math.max(m[y], m[y-weights[x]]+values[x]);
+				}
+			}
+		}
+		
+		return m[capacity];
+	}
+	
+	public static ArrayList<Integer> knapsackF(int[] values, int[] weights, int capacity, int[] maxvalue, int[] maxcapacity)
 	{
 		int[][] m = new int[values.length+1][capacity+1];
 		ArrayList<Integer> items = new ArrayList<Integer>();
@@ -66,12 +89,12 @@ public class Knapsack {
 	
 	public static void main(String[] args) 
 	{
-		int[] values = {2,6,5,100};
-		int[] weights = {3,5,4,8};
-		int capacity = 8;
+		int[] values = {2,6,5,10,6};
+		int[] weights = {3,5,4,2,20};
+		int capacity = 10;
 		int[] maxvalue = new int[1];
 		int[] maxcapacity = new int[1];
-		ArrayList<Integer> items = knapsack(values,weights,capacity, maxvalue, maxcapacity);
+		ArrayList<Integer> items = knapsackF(values,weights,capacity, maxvalue, maxcapacity);
 		
 		Collections.sort(items);
 		
@@ -89,6 +112,8 @@ public class Knapsack {
 		{
 			System.out.println("Cannot fit any items");
 		}
+		
+		System.out.println("Result E = " + knapsackEF(values,weights,capacity));
 	}
 
 }
