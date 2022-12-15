@@ -89,15 +89,15 @@ public class Knapsack {
 	
 	public static void main(String[] args) 
 	{
-		int[] values = {2,6,5,10,6};
-		int[] weights = {3,5,4,2,20};
-		int capacity = 10;
+		int[] values = {2,6,5};
+		int[] weights = {3,1,1};
+		int capacity = 1;
 		int[] maxvalue = new int[1];
 		int[] maxcapacity = new int[1];
 		ArrayList<Integer> items = knapsackF(values,weights,capacity, maxvalue, maxcapacity);
 		
 		Collections.sort(items);
-		
+		System.out.println("KnapsackF:");
 		if(maxvalue[0]!=0 && items.size()!=0 && maxcapacity[0]!=0)
 		{
 			System.out.println("Max value = " + maxvalue[0]);
@@ -113,7 +113,16 @@ public class Knapsack {
 			System.out.println("Cannot fit any items");
 		}
 		
-		System.out.println("Result E = " + knapsackEF(values,weights,capacity));
+		System.out.println("\nKnapsackEF:");
+		int res = knapsackEF(values,weights,capacity);
+		if(0==res)
+		{
+			System.out.println("Cannot fit any items");
+		}
+		else
+		{
+			System.out.println("Max value = " + res);
+		}
 	}
 
 }
