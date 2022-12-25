@@ -1,0 +1,50 @@
+Useful Tricks:
+
+---------------------------------------------------------------
+
+- BFS - Queue (using middle while loop for each level is helpful)
+
+Queue<Integer> q = new LinkedList<Integer>();
+
+while(!q.isEmpty())
+        {
+            int size = q.size();
+            while(size-- > 0)
+            {
+                TreeNode current = q.poll();
+
+Or 
+
+ int size = q.size();
+for(int i=0;i<size;i++)
+{
+  TreeNode current = q.poll();
+
+--------------------------------------------------------------
+
+- Bit Manipulation
+
+V << k = V * 2^k
+V >> k = V / 2^k
+
+--------------------------------------------------------------
+
+-  Array DFS (subsets)
+
+public static void dfs(int[] arr,String str, int currentIndex) 
+	{
+		System.out.println(str);
+		for(int x=currentIndex;x<arr.length;x++)
+		{
+			dfs(arr,str + " " +String.valueOf(arr[x]), x+1);
+		}
+		
+	}
+--------------------------------------------------------------
+
+- Sort array comparator
+
+Arrays.sort(arr,Arrays::compare);
+Arrays.sort(arr, (a, b) -> a[0] - b[0]);
+b[0]-a[0] --> decreasing order
+a[0]-b[0] --> increasing order
