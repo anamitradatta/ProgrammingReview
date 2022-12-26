@@ -1,5 +1,10 @@
 package test;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class testBinarySearch {
 
 	// Recursive
@@ -48,6 +53,24 @@ public class testBinarySearch {
 		}
 		return -1;
 	}
+	
+	// Find Proper Index to place element before/at
+	public static int binarySearchIndex(int[] arr, int start, int end, int target) 
+	{
+	    while (start < end) 
+	    {
+	    	int mid = start + (end - start)/2;
+	    	if (arr[mid] >= target) 
+	    	{
+	    		end = mid;
+	    	}
+	    	else 
+	    	{
+	    		start = mid + 1;
+	    	}
+	    }
+	    return end;
+	}
 
 	public static void main(String[] args) 
 	{
@@ -55,6 +78,7 @@ public class testBinarySearch {
 		
 		System.out.println("Recursive = " + binarySearchRec(arr,0,arr.length-1,1000));
 		System.out.println("Iterative = " + binarySearchIt(arr,0,arr.length-1,1000));
+		System.out.println("Index = " + binarySearchIndex(arr,0,arr.length-1,99));
 		
 		
 	}
