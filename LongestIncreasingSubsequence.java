@@ -22,7 +22,7 @@ public class LongestIncreasingSubsequence {
         return Math.max(take, dontTake); // return whichever choice gives max LIS   
     }
 	
-	public static int dpLIS(int[] nums)
+	public static int dpLISTopDown(int[] nums)
 	{
 		if(nums.length==1)
         {
@@ -43,6 +43,37 @@ public class LongestIncreasingSubsequence {
             for(int k=j+1;k<nums.length;k++)
             {
                 if(nums[j]<nums[k])
+                {
+                    arr[j]=Math.max(arr[j],1+arr[k]);
+                }
+                max = Math.max(max,arr[j]);
+            }
+        }
+        
+        return max;
+	}
+	
+	public static int dpLISBottomUp(int[] nums)
+	{
+		if(nums.length==1)
+        {
+            return 1;
+        }
+        
+        int[] arr = new int[nums.length];
+        
+        for(int i=0;i<arr.length;i++)
+        {
+            arr[i]=1;
+        }
+        
+        int max = Integer.MIN_VALUE;
+        
+        for(int j=1;j<nums.length;j++)
+        {
+            for(int k=0;k<j;k++)
+            {
+                if(nums[j]>nums[k])
                 {
                     arr[j]=Math.max(arr[j],1+arr[k]);
                 }
@@ -79,7 +110,7 @@ public class LongestIncreasingSubsequence {
 	             //int index = Arrays.binarySearch(arr,0,size,nums[i]);
 	        	 //if(index<0) index = (index+1)*-1;
 	        	 
-	             int index = binarySearch(arr,0,size-1,nums[i]);
+	             int index = binarySearchIndex(arr,0,size-1,nums[i]);
 	             arr[index] = nums[i];
 	             continue;
 	         }
@@ -88,7 +119,7 @@ public class LongestIncreasingSubsequence {
 	     return size;
 	}
 	 
-	public static int binarySearch(int[] arr, int start, int end, int target) 
+	public static int binarySearchIndex(int[] arr, int start, int end, int target) 
 	{
 	    while (start < end) 
 	    {
@@ -108,9 +139,10 @@ public class LongestIncreasingSubsequence {
 	public static void main(String[] args) 
 	{
 		int[] arr = {1,4,7,8,9,10,2,5};
-		System.out.println(recursiveLIS(arr, 0, Integer.MIN_VALUE));
-		System.out.println(dpLIS(arr));
-		System.out.println(binarySearchLIS(arr));
+		System.out.println("recursive = " + recursiveLIS(arr, 0, Integer.MIN_VALUE));
+		System.out.println("top down = " + dpLISTopDown(arr));
+		System.out.println("bottom up = " + dpLISBottomUp(arr));
+		System.out.println("binary search = " + binarySearchLIS(arr));
 
 	}
 
