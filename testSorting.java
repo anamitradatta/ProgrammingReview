@@ -58,7 +58,8 @@ public class testSorting {
 		};
 	}
 	
-	public static void shellSort(int arr[]) {
+	public static void shellSort(int arr[]) 
+	{
 
 		for (int gap = arr.length/2; gap > 0; gap /= 2) 
 		{
@@ -135,11 +136,13 @@ public class testSorting {
 	
 	private static int partition(int arr[], int begin, int end)
 	{
-		// Choose a random pivot
-		int rpivot = r.nextInt(end - begin) + begin;
-		swap(arr,rpivot,end);
-		rpivot =end;
+		// choose end index as the pivot
+		//int pivot = arr[end];
 		
+        // Choose a random pivot
+        int rpivot = r.nextInt(end - begin) + begin;
+        swap(arr,rpivot,end);
+        rpivot =end;
 		int pivot = arr[rpivot];
 		
 	    int i = (begin-1);
@@ -157,7 +160,7 @@ public class testSorting {
 	    return i+1;
 	}
 	
-	public void heapSort(int arr[])
+	public static void heapSort(int arr[])
     {
         // Build heap (rearrange array)
         for (int i = arr.length / 2 - 1; i >= 0; i--)
@@ -177,7 +180,7 @@ public class testSorting {
   
     // To heapify a subtree rooted with node i which is
     // an index in arr[]. n is size of heap
-    void heapify(int arr[], int n, int i)
+    public static void heapify(int arr[], int n, int i)
     {
         int largest = i;  // Initialize largest as root
         int l = 2*i + 1;  // left = 2*i + 1
@@ -223,15 +226,47 @@ public class testSorting {
 	public static void main(String[] args) 
 	{
 		
-		int[] a = new int[] {3,1,9,2,4,5};
-		System.out.print("begin: ");
-		print(a);
+		int[] a = new int[] {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
 		long s = System.nanoTime();
 		quickSort(a,0,a.length-1);
 		long e =System.nanoTime();
-		System.out.print("end:   ");
-        print(a);
-		System.out.println("Time taken (quicksort sort): "+ (e-s) +" nanoseconds");
+		System.out.println("Time taken (quick sort): "+ (e-s) +" nanoseconds");
+		
+		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
+		s = System.nanoTime();
+		heapSort(a);
+		e =System.nanoTime();
+		System.out.println("Time taken (heap sort): "+ (e-s) +" nanoseconds");
+		
+		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
+		s = System.nanoTime();
+		mergeSort(a,a.length);
+		e =System.nanoTime();
+		System.out.println("Time taken (merge sort): "+ (e-s) +" nanoseconds");
+		
+		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
+		s = System.nanoTime();
+		shellSort(a);
+		e =System.nanoTime();
+		System.out.println("Time taken (shell sort): "+ (e-s) +" nanoseconds");
+		
+		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
+		s = System.nanoTime();
+		selectionSort(a);
+		e =System.nanoTime();
+		System.out.println("Time taken (selection sort): "+ (e-s) +" nanoseconds");
+		
+		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
+		s = System.nanoTime();
+		insertionSort(a);
+		e =System.nanoTime();
+		System.out.println("Time taken (insertion sort): "+ (e-s) +" nanoseconds");
+		
+		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
+		s = System.nanoTime();
+		bubbleSort(a);
+		e =System.nanoTime();
+		System.out.println("Time taken (bubble sort): "+ (e-s) +" nanoseconds");
 		
 	}
 
