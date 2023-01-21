@@ -4,6 +4,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Knapsack {
+	
+	public static int knapsackRecursive(int[] w, int[] p, int c, int index, int ps) 
+	{
+		if(index==w.length || c==0)
+		{
+			return ps;
+		}
+		
+		int include=0;
+		if(c>=w[index])
+		{
+			include = knapsackRecursive(w,p,c-w[index],index+1,ps+p[index]);
+		}
+		int notinclude = knapsackRecursive(w,p,c,index+1,ps);
+		
+		return Math.max(include,notinclude);
+	}
 
 	public static int knapsackEF(int[] values, int[] weights, int capacity) 
 	{
@@ -25,7 +42,14 @@ public class Knapsack {
 			}
 		}
 		
-		return m[capacity];
+		if(capacity>maxweight)
+		{
+			return m[maxweight];
+		}
+		else
+		{
+			return m[capacity];
+		}
 	}
 	
 	public static ArrayList<Integer> knapsackF(int[] values, int[] weights, int capacity, int[] maxvalue, int[] maxcapacity)
@@ -89,15 +113,19 @@ public class Knapsack {
 	
 	public static void main(String[] args) 
 	{
-		int[] values = {2,6,5};
-		int[] weights = {3,1,1};
-		int capacity = 1;
+		int[] values = {2,6,5,6,10};
+		int[] weights = {3,1,1,5,6};
+		int capacity = 11;
 		int[] maxvalue = new int[1];
 		int[] maxcapacity = new int[1];
+		
+		System.out.println("KnapsackRecursive:");
+		System.out.println("Max value = " + knapsackRecursive(weights,values,capacity,0,0));
+		
 		ArrayList<Integer> items = knapsackF(values,weights,capacity, maxvalue, maxcapacity);
 		
 		Collections.sort(items);
-		System.out.println("KnapsackF:");
+		System.out.println("\nKnapsackF:");
 		if(maxvalue[0]!=0 && items.size()!=0 && maxcapacity[0]!=0)
 		{
 			System.out.println("Max value = " + maxvalue[0]);
