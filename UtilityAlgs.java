@@ -1,5 +1,7 @@
 package test;
 
+import java.util.Arrays;
+
 public class UtilityAlgs 
 {
 	public static void printArray(int[] arr)
@@ -22,5 +24,30 @@ public class UtilityAlgs
 	         System.out.println();
 	     }
 	     System.out.println();
+	 }
+	 
+	 public static void fillArray(int[] arr, int val)
+	 {
+		 Arrays.fill(arr, val);	
+	 }
+	 
+	 public static void fillArray(int[][] arr, int val)
+	 {
+	     for(int[] a: arr)
+		 {
+			 Arrays.fill(a, val);	
+		 }
+	 }
+	 
+	 public static boolean allEqual(int checkValue, int... otherValues)
+	 {
+		 for (int value : otherValues)
+		 {
+		     if (value != checkValue)
+		     {
+		         return false;
+		     }
+		 }
+		 return true;
 	 }
 }
