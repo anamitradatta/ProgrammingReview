@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.io.*;
 import java.util.Collections;
 
 public class Knapsack {
@@ -31,7 +32,7 @@ public class Knapsack {
 			return ps;
 		}
 		if(memo[index][c]!=0)
-		{
+		{ 
 			return memo[index][c];
 		}
 		
@@ -133,9 +134,9 @@ public class Knapsack {
 	
 	public static void main(String[] args) 
 	{
-		int[] values = {2,6,50,6,10,15};
-		int[] weights = {3,6,45,5,6,1};
-		int capacity = 91;
+		int[] values = {1,6,10,16};
+		int[] weights = {1,2,3,5};
+		int capacity = 7;
 		int[] maxvalue = new int[1];
 		int[] maxcapacity = new int[1];
 		
@@ -145,7 +146,21 @@ public class Knapsack {
 			System.exit(-1);
 		}
 		
-		System.out.println("KnapsackRecursive:");
+		System.out.print("Values: ");
+		for(int v: values)
+		{
+			System.out.print(v + " ");
+		}
+		
+		System.out.print("\nWeights: ");
+		for(int w: weights)
+		{
+			System.out.print(w + " ");
+		}
+		
+		System.out.println("\nCapacity = " + capacity);
+		
+		System.out.println("\nKnapsackRecursive:");
 		int resRec = knapsackRecursive(weights,values,capacity,0,0);
 		if(resRec==0)
 		{
@@ -201,12 +216,12 @@ public class Knapsack {
 		System.out.println();
 		if(UtilityAlgs.allEqual(resRec,resMemo,resF,resEF))
 		{
-			System.out.println("SUCCESS: All values are equal");
+			System.out.println("\u001B[32m" + "SUCCESS: All results are equal (" + resRec + ")" + " \u001B[0m");
 		}
 		else
 		{
-			System.out.println("FAIL: Not all values are equal");
-			System.out.println("resRec=" + resRec + " resMemo="+resMemo + " resF=" + resF + " resEF=" + resEF);
+			System.out.println("\u001B[31m"+ "FAIL: Not all results are equal" + "\u001B[0m");
+			System.out.println("\u001B[31m"+"resRec=" + resRec + " resMemo="+resMemo + " resF=" + resF + " resEF=" + resEF + "\u001B[0m" );
 		}
 	}
 
