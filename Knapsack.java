@@ -51,16 +51,10 @@ public class Knapsack {
 	// Efficient knapsack implementation using 1D array O(w*c), O(c) space
 	public static int knapsackEF(int[] values, int[] weights, int capacity) 
 	{
-        int maxweight = 0;		
-		for(int i: weights)
-		{
-			maxweight+=i;
-		}
-	
-		int[] m = new int [maxweight+1];
+		int[] m = new int [capacity+1];
 		for(int x=0;x<values.length;x++)
 		{
-			for(int y=maxweight;y>=0;y--)
+			for(int y=capacity;y>0;y--)
 			{
 				if(weights[x]<=y)
 				{
@@ -69,15 +63,7 @@ public class Knapsack {
 			}
 		}
 		
-		
-		if(capacity>maxweight)
-		{
-			return m[maxweight];
-		}
-		else
-		{
-			return m[capacity];
-		}
+		return m[capacity];
 	}
 	
 	// Efficient knapsack implementation using 2D array O(w*c) time, O(w*c) space
@@ -135,8 +121,8 @@ public class Knapsack {
 	public static void main(String[] args) 
 	{
 		int[] values = {1,6,10,16};
-		int[] weights = {1,2,3,5};
-		int capacity = 7;
+		int[] weights = {1,200,3,5};
+		int capacity = 42;
 		int[] maxvalue = new int[1];
 		int[] maxcapacity = new int[1];
 		
