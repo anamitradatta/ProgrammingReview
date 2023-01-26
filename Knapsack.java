@@ -77,6 +77,25 @@ public class Knapsack {
 		return m[values.length-1][capacity];
 	}
 	
+	// Efficient knapsack unbound implementation using 1D array O(w*c) time, O(c) space
+	public static int knapsackUEF(int[] values, int[] weights, int capacity)
+	{
+		int[] m = new int[capacity+1];
+				
+		for(int x=0;x<values.length;x++)
+		{
+			for(int y=1;y<=capacity;y++)
+			{
+				if(weights[x]<=y)
+				{
+					m[y]=Math.max(values[x] + m[y-weights[x]], m[y]);
+				}
+			}
+		}
+			
+		return m[capacity];
+	}
+	
 	// Recursive O(2^n)
 	public static int knapsackRecursive(int[] w, int[] p, int c, int index) 
 	{
@@ -189,8 +208,8 @@ public class Knapsack {
 	
 	public static void main(String[] args) 
 	{
-		int[] values = {15,200,40,50};
-		int[] weights = {1,20,3,6};
+		int[] values = {1,2,4,5};
+		int[] weights = {1,2,3,6};
 		int capacity = 25;
 		
 		if(values.length!=weights.length)
@@ -312,14 +331,25 @@ public class Knapsack {
 			System.out.println("Max value = " + resUF);
 		}
 		
-		if(UtilityAlgs.allEqual(resURec,resUMemo,resUF))
+		System.out.println("\nKnapsackUEF:");
+		int resUEF = knapsackUEF(values,weights,capacity);
+		if(0==resUEF)
+		{
+			System.out.println("Cannot fit any items");
+		}
+		else
+		{
+			System.out.println("Max value = " + resUEF);
+		}
+		
+		if(UtilityAlgs.allEqual(resURec,resUMemo,resUF,resUEF))
 		{
 			System.out.println("\u001B[32m" + "SUCCESS: All results are equal (" + resURec + ")" + " \u001B[0m");
 		}
 		else
 		{
 			System.out.println("\u001B[31m"+ "FAIL: Not all results are equal" + "\u001B[0m");
-			System.out.println("\u001B[31m"+"resURec=" + resURec + " resUMemo="+resUMemo + " resUF=" + resUF + "\u001B[0m" );
+			System.out.println("\u001B[31m"+"resURec=" + resURec + " resUMemo="+resUMemo + " resUF=" + resUF + " resUEF=" + resUEF + "\u001B[0m" );
 		}
 		
 	}
