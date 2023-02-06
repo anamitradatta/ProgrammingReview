@@ -1,5 +1,6 @@
 package test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UtilityAlgs 
@@ -13,7 +14,7 @@ public class UtilityAlgs
 		System.out.println();
 	}
 	
-	 public static void printArray(int[][] arr)
+	 public static void print2DArray(int[][] arr)
 	 {
 	     for(int i=0;i<arr.length;i++)
 	     {
@@ -24,6 +25,24 @@ public class UtilityAlgs
 	         System.out.println();
 	     }
 	     System.out.println();
+	 }
+	 
+	 public static void printArrayList(ArrayList<Integer> l)
+	 {
+         for(int i=0;i<l.size();i++)
+		 {
+		     System.out.print(l.get(i) + " ");
+	     }
+		 System.out.println();
+	 }
+	 
+	 public static void print2DArrayList(ArrayList<ArrayList<Integer>> l)
+	 {
+		 for(int i=0;i<l.size();i++)
+		 {
+		     printArrayList(l.get(i));
+	     }
+		 System.out.println();
 	 }
 	 
 	 public static void fillArray(int[] arr, int val)
