@@ -285,6 +285,7 @@ public Node popFront()
 	Node n = head;
 	Node next = head.next;
 	head = next;
+	size--;
 	return n;
 }
 
@@ -311,6 +312,7 @@ public Node popEnd()
 			Node t = n;
 			n=null;
 			prev.setNext(null);
+			size--;
 			return t;
 		}
 		else
