@@ -4,8 +4,8 @@ public class testLinkedList {
 	
 	public class Node
     {
-        int val;
-        Node next;
+        private int val;
+        private Node next;
        
         public Node()
         {
@@ -35,14 +35,19 @@ public class testLinkedList {
             return val;
         }
        
+        public Node getNext()
+        {
+            return next;
+        }
+        
         public void setNext(Node n)
         {
             next=n;
         }
-       
-        public Node getNext()
+        
+        public void setNext(int v)
         {
-            return next;
+            next=new Node(v);
         }
     }
     
@@ -55,6 +60,44 @@ public class testLinkedList {
         head=null;
     }
     
+    public testLinkedList(int val)
+    {
+        size=1;
+        head=new Node(val);
+    }
+    
+    public testLinkedList(Node n)
+    {
+        size=1;
+        head=n;
+    }
+    
+    public testLinkedList(int v1, int v2)
+    {
+        size=2;
+        head=new Node(v1,new Node(v2));
+    }
+    
+    public testLinkedList(Node n1, int v2)
+    {
+        size=2;
+        head=n1;
+        head.next = new Node(v2);
+    }
+    
+    public testLinkedList(int v1, Node n2)
+    {
+        size=2;
+        head=new Node(v1,n2);
+    }
+    
+    public testLinkedList(Node n1, Node n2)
+    {
+        size=2;
+        head=n1;
+        head.next = n2;
+    }
+    
     public int getSize()
     {
     	return size;
@@ -63,6 +106,11 @@ public class testLinkedList {
     public boolean isEmpty()
     {
     	return size==0;
+    }
+    
+    public Node getHead()
+    {
+    	return head;
     }
     
  public int get(int index) {
@@ -115,7 +163,7 @@ public class testLinkedList {
     {
         if(i==size-1)
         {
-            x.setNext(n);
+            x.next=n;
             size=size+1;
             return;
         }
@@ -128,8 +176,15 @@ public class testLinkedList {
 
  public void addAtIndex(int index, int val)
  {
+	   if ((head==null || size==0) && index > 0)
+       {
+    	   System.out.println("list is empty, cannot add element at index=" + index);
+           return;
+       }
+	 
        if(index>size)
        {
+    	   System.out.println("cannot add at index=" + index + "; index is greater than size of list=" + getSize());
            return;
        }
        else if(index==size)
@@ -149,7 +204,7 @@ public class testLinkedList {
                if(i==index)
                {
                    Node n = new Node(val,x);
-                   prev.setNext(n);
+                   prev.next = n;
                    size=size+1;
                }
                else
@@ -163,9 +218,17 @@ public class testLinkedList {
 
 
  public void deleteAtIndex(int index) {
-     if(index >= size || head==null)
+	 
+	 if (head==null || size==0)
      {
+    	 System.out.println("list is empty, cannot delete element at index=" + index);
          return;
+     }
+	 
+     if(index >= size)
+     {
+    	 System.out.println("cannot delete at index=" + index + "; index is greater than size of list=" + getSize());
+    	 return;
      }
      
      if(index==0)
@@ -176,10 +239,13 @@ public class testLinkedList {
      else if(index==size-1)
      {
          Node x=head;
+         Node prev=null;
          for(int i=0;i<size-1;i++)
          {
+        	 prev =x;
              x = x.getNext();
          }
+         prev.setNext(null);
          x = null;
          size=size-1;
      }
@@ -191,7 +257,7 @@ public class testLinkedList {
          {
              if(i==index)
              {
-                 prev.setNext(x.getNext());
+                 prev.next=x.getNext();
                  x=null;
                  size=size-1;
                  return;
@@ -210,37 +276,46 @@ public class testLinkedList {
 
 public Node popFront()
 {
+	if(head==null || size==0)
+	{
+		System.out.println("cannot pop front; list is empty");
+		return null;
+	}
+	
 	Node n = head;
-	head = head.getNext();
+	Node next = head.next;
+	head = next;
 	return n;
 }
 
 public Node popEnd()
 {
 	
-	if(head==null)
+	if(head==null || size==0)
 	{
+		System.out.println("cannot pop end; list is empty");
 		return null;
 	}
 	
 	if(size==1)
 	{
-		Node t = head;
-		head=null;
-		return t;
+		return popFront();
 	}
 	
 	Node n=head;
+	Node prev=null;
 	for(int i=0;i<size;i++)
 	{
 		if(i==size-1)
 		{
 			Node t = n;
 			n=null;
+			prev.setNext(null);
 			return t;
 		}
 		else
 		{
+			prev=n;
 			n=n.getNext();
 		}
 	}
@@ -249,19 +324,29 @@ public Node popEnd()
 
 public void reverse()
 {
+	if(head==null || size==0)
+	{
+		System.out.println("cannot reverse list; list is empty");
+	}
+	
 	 Node n =head;
 	 Node prev=null;
 	 while(n!=null)
 	 {
 		 Node next=n.next;
 		 n.next=prev;
-		 prev=head;
-		 head=next;
+		 prev=n;
+		 n=next;
 	 }
+	 head=prev;
 }
 
 public void reverser()
 {
+	if(head==null || size==0)
+	{
+		System.out.println("cannot reverse list; list is empty");
+	}
 	reverserh(head,null);
 }
 
@@ -269,16 +354,46 @@ public Node reverserh(Node curr, Node prev)
 {
 	 if(curr==null)
 	 {
+		 head=prev;
 		 return prev;
 	 }
-	 Node next = curr.next;
+	 Node next=curr.next;
 	 curr.next=prev;
-	 return reverserh(curr,prev);
-	 
+	 return reverserh(next,curr);
 }
 
-	public static void main(String[] args) {
+public void printList()
+{
+	if(head==null || size==0) 
+	{
+		System.out.println("Cannot print list; list is empty");
+		return;
+	}
+	Node n=head;
+	while(n!=null)
+	{
+		System.out.print(n.getVal() + " ");
+		n=n.getNext();
+	}
+	System.out.println();
+}
+
+	public static void main(String[] args) 
+	{
+		testLinkedList l = new testLinkedList();
+		l.addAtIndex(0,19);
+		l.addAtHead(5);
+		l.addAtHead(7);
+		l.addAtHead(4);
+		l.addAtTail(9);
+		l.addAtIndex(3, 8);
+		l.addAtTail(11);
+		l.addAtIndex(7, 75);
+		l.printList();
 		
+		System.out.println("reversed");
+		l.reverser();
+		l.printList();
 
 	}
 
