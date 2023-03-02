@@ -329,6 +329,7 @@ public void reverse()
 	if(head==null || size==0)
 	{
 		System.out.println("cannot reverse list; list is empty");
+		return;
 	}
 	
 	 Node n =head;
@@ -348,6 +349,7 @@ public void reverser()
 	if(head==null || size==0)
 	{
 		System.out.println("cannot reverse list; list is empty");
+		return;
 	}
 	reverserh(head,null);
 }
@@ -394,7 +396,11 @@ public void printList()
 		l.printList();
 		
 		System.out.println("reversed");
-		l.reverser();
+		l.reverse();
+		l.printList();
+		
+		System.out.println("reversed again");
+		l.reverse();
 		l.printList();
 
 	}
