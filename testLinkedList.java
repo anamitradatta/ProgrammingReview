@@ -366,6 +366,14 @@ public Node reverserh(Node curr, Node prev)
 	 return reverserh(next,curr);
 }
 
+public void deleteAllNodes()
+{
+	while(size>0)
+	{
+		popFront();
+	}
+}
+
 public void printList()
 {
 	if(head==null || size==0) 
@@ -401,6 +409,11 @@ public void printList()
 		
 		System.out.println("reversed again");
 		l.reverse();
+		l.printList();
+		
+		l.deleteAllNodes();
+		l.addAtTail(9);
+		l.addAtHead(10);
 		l.printList();
 
 	}
