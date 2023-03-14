@@ -48,3 +48,33 @@ Arrays.sort(arr,Arrays::compare);
 Arrays.sort(arr, (a, b) -> a[0] - b[0]);
 b[0]-a[0] --> decreasing order
 a[0]-b[0] --> increasing order
+
+--------------------------------------------------------------
+public static int getSumDigits(int n)
+{
+	int sum = 0;
+ 
+        while (n != 0) 
+	{
+            sum += n % 10;
+            n /= 10;
+        }
+ 
+        return sum;
+}
+-----------------------------------------------------------------
+public static int numSubarrays(int arr, int size)
+{
+	return arr.length-size+1;
+}
+------------------------------------------------------------------
+public static int modulo(int i, int a, int size)
+{
+	return ((((i+a) % size) + size) % size);
+}
+------------------------------------------------------------------
+# digit at ith index (1-based)
+int digit(int a, int b)
+{
+	return a / (int)Math.pow(10, b - 1) % 10;
+}
