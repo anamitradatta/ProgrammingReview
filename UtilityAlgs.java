@@ -69,4 +69,39 @@ public class UtilityAlgs
 		 }
 		 return true;
 	 }
+
+	public static void printArray(double[] arr) 
+	{
+		for(int i=0;i<arr.length;i++)
+		{
+			System.out.print(arr[i] + " ");
+		}
+		System.out.println();
+	}
+	
+	public static boolean arrayIsSorted(int[] arr) 
+	{
+		for (int i = 0; i < arr.length-1; i++) 
+		{
+			if (arr[i] > arr[i + 1]) 
+			{
+				return false; 
+		    }
+		}
+
+		return true;
+	}
+	
+	public static boolean arrayIsSorted(double[] arr) 
+	{
+		for (int i = 0; i < arr.length-1; i++) 
+		{
+			if (Double.compare(arr[i],arr[i+1]) > 0) 
+			{
+				return false; 
+		    }
+		}
+
+		return true;
+	}
 }

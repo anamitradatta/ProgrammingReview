@@ -1,6 +1,7 @@
 package test;
 
 import java.util.Random;
+import java.io.*;
 
 public class testSorting {
 	
@@ -207,66 +208,114 @@ public class testSorting {
         }
     }
 	
-	public static void print(int[] arr)
-	{
-		if(arr.length==0)
-		{
-			System.out.println("Array is empty");
-		}
-		else
-		{
-			for(int i=0;i<arr.length;i++)
-			{
-				System.out.print(arr[i] + " ");
-			}
-			System.out.println();
-		}
-	}
-	
 	public static void main(String[] args) 
 	{
 		
 		int[] a = new int[] {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
+		UtilityAlgs.printArray(a);
 		long s = System.nanoTime();
 		quickSort(a,0,a.length-1);
 		long e =System.nanoTime();
 		System.out.println("Time taken (quick sort): "+ (e-s) +" nanoseconds");
+		if (UtilityAlgs.arrayIsSorted(a))
+		{
+			System.out.println("\u001B[32mSUCCESS: quick sort successful\u001B[0m");
+		}
+		else
+		{
+			System.out.println("\u001B[31mFAIL: quick sort unsuccessful\u001B[0m");
+			UtilityAlgs.printArray(a);
+		}
 		
 		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
 		s = System.nanoTime();
 		heapSort(a);
 		e =System.nanoTime();
 		System.out.println("Time taken (heap sort): "+ (e-s) +" nanoseconds");
+		if (UtilityAlgs.arrayIsSorted(a))
+		{
+			System.out.println("\u001B[32mSUCCESS: heap sort successful\u001B[0m");
+		}
+		else
+		{
+			System.out.println("\u001B[31mFAIL: heap sort unsuccessful\u001B[0m");
+			UtilityAlgs.printArray(a);
+		}
 		
 		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
 		s = System.nanoTime();
 		mergeSort(a,a.length);
 		e =System.nanoTime();
 		System.out.println("Time taken (merge sort): "+ (e-s) +" nanoseconds");
+		if (UtilityAlgs.arrayIsSorted(a))
+		{
+			System.out.println("\u001B[32mSUCCESS: merge sort successful\u001B[0m");
+		}
+		else
+		{
+			System.out.println("\u001B[31mFAIL: merge sort unsuccessful\u001B[0m");
+			UtilityAlgs.printArray(a);
+		}
 		
 		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
 		s = System.nanoTime();
 		shellSort(a);
 		e =System.nanoTime();
 		System.out.println("Time taken (shell sort): "+ (e-s) +" nanoseconds");
+		if (UtilityAlgs.arrayIsSorted(a))
+		{
+			System.out.println("\u001B[32mSUCCESS: shell sort successful\u001B[0m");
+		}
+		else
+		{
+			System.out.println("\u001B[31mFAIL: shell sort unsuccessful\u001B[0m");
+			UtilityAlgs.printArray(a);
+		}
 		
 		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
 		s = System.nanoTime();
 		selectionSort(a);
 		e =System.nanoTime();
 		System.out.println("Time taken (selection sort): "+ (e-s) +" nanoseconds");
+		if (UtilityAlgs.arrayIsSorted(a))
+		{
+			System.out.println("\u001B[32mSUCCESS: selection sort successful\u001B[0m");
+		}
+		else
+		{
+			System.out.println("\u001B[31mFAIL: selection sort unsuccessful\u001B[0m");
+			UtilityAlgs.printArray(a);
+		}
 		
 		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
 		s = System.nanoTime();
 		insertionSort(a);
 		e =System.nanoTime();
 		System.out.println("Time taken (insertion sort): "+ (e-s) +" nanoseconds");
+		if (UtilityAlgs.arrayIsSorted(a))
+		{
+			System.out.println("\u001B[32mSUCCESS: insertion sort successful\u001B[0m");
+		}
+		else
+		{
+			System.out.println("\u001B[31mFAIL: insertion sort unsuccessful\u001B[0m");
+			UtilityAlgs.printArray(a);
+		}
 		
 		a = new int[]  {3,1,9,2,4,5,6,7,10,200,15,11,12,-1,18,199,99};
 		s = System.nanoTime();
 		bubbleSort(a);
 		e =System.nanoTime();
 		System.out.println("Time taken (bubble sort): "+ (e-s) +" nanoseconds");
+		if (UtilityAlgs.arrayIsSorted(a))
+		{
+			System.out.println("\u001B[32mSUCCESS: bubble sort successful\u001B[0m");
+		}
+		else
+		{
+			System.out.println("\u001B[31mFAIL: bubble sort unsuccessful\u001B[0m");
+			UtilityAlgs.printArray(a);
+		}
 		
 	}
 
