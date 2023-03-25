@@ -123,17 +123,22 @@ public class testBinarySearch {
 		return -1;
 		
 	}
-
 	public static void main(String[] args) 
 	{
-		int[] arr = new int[] {1,2,3,4,5,6,7,8,100,919,1000};
+		int[] arr = new int[] {-203,-102,-10,1,2,5,18,22,27,100,101,114};
 		
-		int num=919;
+		int num=5;
+		
+		if(!UtilityAlgs.arrayIsSorted(arr)) 
+		{ 
+			System.out.println("array is not sorted");
+			System.exit(0);
+		}
 		
 		System.out.println("Recursive binary Search (zero indices end con) = " + binarySearchZero_Rec(arr,0,arr.length-1,num));
 		System.out.println("Iterative binary Search (zero indices end con) = " + binarySearchZero_It(arr,0,arr.length-1,num));
 		System.out.println("Iterative binary Search (one index end con) = " + binarySearchOne_It(arr,0,arr.length-1,num));
-		System.out.println("Iterative binary Search (two index end con) = " + binarySearchTwo_It(arr,0,arr.length-1,num));
+		System.out.println("Iterative binary Search (two indices end con) = " + binarySearchTwo_It(arr,0,arr.length-1,num));
 	}
 
 }
