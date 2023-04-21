@@ -1,5 +1,7 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -277,6 +279,64 @@ public class testTree {
 	      }
 	      System.out.println();
 	  }
+	
+	//converts tree into graph
+	public static HashMap<Integer,ArrayList<Integer>> generateGraph(Node root, boolean isUndirected)
+    {
+        HashMap<Integer,ArrayList<Integer>> graph = new HashMap<Integer,ArrayList<Integer>>();
+        Queue<Node> q = new LinkedList<Node>();
+        
+        q.offer(root);
+        
+        while(!q.isEmpty())
+        {
+        	Node current= q.poll();
+        	Node left =current.getLeft();
+        	Node right = current.getRight();
+            
+        	// create lists for nodes if not already in graph
+            if(!graph.containsKey(current.getVal()))
+            {
+                ArrayList<Integer> l = new ArrayList<Integer>();
+                graph.put(current.getVal(),l);
+            }
+            
+            if(left!=null && !graph.containsKey(left.getVal()))
+            {
+                ArrayList<Integer> l = new ArrayList<Integer>();
+                graph.put(left.getVal(),l);
+            }
+            
+            if(right!=null && !graph.containsKey(right.getVal()))
+            {
+                ArrayList<Integer> l = new ArrayList<Integer>();
+                graph.put(right.getVal(),l);
+            }
+            
+            // add nodes path to current (undirected - both ways)
+            if(left!=null)
+            {
+                q.offer(left);
+                
+                graph.get(current.getVal()).add(left.getVal());
+                
+                //omit this for directed graph (no backtracking)
+                if(isUndirected) graph.get(left.getVal()).add(current.getVal());
+            }
+            
+            if(right!=null)
+            {
+                q.offer(right);
+                graph.get(current.getVal()).add(right.getVal());
+                
+                //omit this for directed graph (no backtracking)
+                if(isUndirected) graph.get(right.getVal()).add(current.getVal());
+            }
+            
+        }
+        
+        return graph;
+    }    
 
 	public static void main(String[] args) {
 		
@@ -297,6 +357,20 @@ public class testTree {
 		t.getRoot().getRight().setLeft(r6);
 		t.getRoot().getRight().setRight(r7);
 	    t.getRoot().getLeft().getLeft().setRight(r8);
+	    
+	    HashMap<Integer,ArrayList<Integer>> graph = generateGraph(r1,false);
+	    
+	    for(Integer i: graph.keySet())
+	    {
+	    	System.out.print(i.intValue() + " - ");
+	    	ArrayList<Integer> n = graph.get(i);
+	    	for(Integer nd: n)
+	    	{
+	    		System.out.print(nd.intValue() + " ");
+	    	}
+	    	System.out.println();
+	    }
+	    
 	}
 
 }
