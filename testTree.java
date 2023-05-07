@@ -337,6 +337,16 @@ public class testTree {
         
         return graph;
     }    
+	
+	public static void printTree(Node node, String prefix)
+	{
+		if(node == null) return;
+
+		printTree(node.getRight() , prefix + "   ");
+	    System.out.println(prefix + node.getVal());
+	    printTree(node.getLeft() , prefix + "   ");
+	   
+	} 
 
 	public static void main(String[] args) {
 		
@@ -349,6 +359,7 @@ public class testTree {
 		Node r6 = new Node(60);
 		Node r7 = new Node(70);
 		Node r8 = new Node(80);
+		
 		t.setRoot(r1);
 		t.getRoot().setLeft(r2);
 		t.getRoot().setRight(r3);
@@ -358,18 +369,7 @@ public class testTree {
 		t.getRoot().getRight().setRight(r7);
 	    t.getRoot().getLeft().getLeft().setRight(r8);
 	    
-	    HashMap<Integer,ArrayList<Integer>> graph = generateGraph(r1,false);
-	    
-	    for(Integer i: graph.keySet())
-	    {
-	    	System.out.print(i.intValue() + " - ");
-	    	ArrayList<Integer> n = graph.get(i);
-	    	for(Integer nd: n)
-	    	{
-	    		System.out.print(nd.intValue() + " ");
-	    	}
-	    	System.out.println();
-	    }
+	    printTree(r1,"");
 	    
 	}
 
