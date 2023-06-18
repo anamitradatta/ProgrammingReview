@@ -73,7 +73,7 @@ public class testGraph
 			{
 				for(Edge e: edges)
 				{
-					System.out.println("(" + e.getFrom().getName() + ") -> (" + e.getTo().getName() + ")");
+					System.out.println(e.toString());
 				}
 			}
 		}
@@ -125,10 +125,15 @@ public class testGraph
 			weight=w;
 		}
 		
+		public String toString()
+		{
+			return "(" + String.valueOf(from.getName()) + ")-[" +  weight + "]->(" + String.valueOf(to.getName()) + ")";
+		}
+		
 	}
 	
-	private static int numVertices;
-	private static ArrayList<Vertex> graph;
+	private int numVertices;
+	private ArrayList<Vertex> graph;
 	boolean isUndirected;
 	
 	public testGraph()
@@ -263,7 +268,7 @@ public class testGraph
 		}
 	}
 	
-	public static ArrayList<Vertex> bfs(Vertex from)
+	public ArrayList<Vertex> bfs(Vertex from)
 	{
 		ArrayList<Vertex> bfsl = new ArrayList<Vertex>();
 		if(!graph.contains(from))
@@ -341,7 +346,7 @@ public class testGraph
 		return dfsl;
 	}
 	
-	public static HashMap<Vertex,Integer> dijkstra(Vertex source)
+	public HashMap<Vertex,Integer> dijkstra(Vertex source)
 	{
 		HashMap<Vertex,Integer> dd = new HashMap<Vertex,Integer>();
 		HashMap<Vertex,Integer> ddf = new HashMap<Vertex,Integer>();
@@ -354,27 +359,24 @@ public class testGraph
 		{
 			//add all edges and compare
 			if(current.getNumEdges()!=0)
-			{
+			{	
 				for(Edge e: current.getEdges())
 				{
+					//if its the source node or we already visited it, ignore and continue
+					if(e.getTo()==source || visited.contains(e.getTo()))
+					{
+						continue;
+					}
 					//if we have not visited the node and its not the source, add it
-					if(!unvisited.contains(e.getTo()) && e.getTo()!=source)
+					else if(!unvisited.contains(e.getTo()) && e.getTo()!=source)
 					{
 						unvisited.add(e.getTo());
 						dd.put(e.getTo(), pathWeight+e.getWeight());
 					}
-					//if its the source node or we already visited it, ignore and continue
-					else if(e.getTo()==source || visited.contains(e.getTo()))
+					//if the current path weight is less than the old path weight, replace it
+					else if(pathWeight+e.getWeight()<dd.get(e.getTo()))
 					{
-						continue;
-					}
-					else
-					{
-						//if the current path weight is less than the old path weight, replace it
-						if(pathWeight+e.getWeight()<dd.get(e.getTo()))
-						{
-							dd.put(e.getTo(), pathWeight+e.getWeight());
-						}
+						dd.put(e.getTo(), pathWeight+e.getWeight());
 					}
 				}
 			}
@@ -401,7 +403,7 @@ public class testGraph
 		return ddf;
 	}
 	
-	public static HashMap<Vertex,Integer> bellman_ford(Vertex source)
+	public HashMap<Vertex,Integer> bellman_ford(Vertex source)
 	{
 		HashMap<Vertex,Integer> bf = new HashMap<Vertex,Integer>();
 		HashMap<Vertex,Boolean> visited = new HashMap<Vertex,Boolean>();
@@ -546,6 +548,8 @@ public class testGraph
 		Vertex vD = new Vertex("D");
 		Vertex vE = new Vertex("E");
 		Vertex vF = new Vertex("F");
+		Vertex vG = new Vertex("G");
+		
 		g.addVertex(vA);
 		g.addVertex(vB);
 		g.addVertex(vC);
@@ -553,24 +557,48 @@ public class testGraph
 		g.addVertex(vE);
 		g.addVertex(vS);
 		g.addVertex(vF);
+		g.addVertex(vG);
 		
-		/*
-		g.addEdge(vS,vE, 8);
-		g.addEdge(vS,vA, 10);
-		g.addEdge(vE,vD, 1);
-		g.addEdge(vD,vA, -4);
-		g.addEdge(vD,vC, -1);
-		g.addEdge(vA,vC, 2);
-		g.addEdge(vC,vB, -2);
-		g.addEdge(vB,vA, 1);
-		*/
+		vS.addEdge(vA,1);
+		vS.addEdge(vB,2);
+		vA.addEdge(vB,5);
+		vB.addEdge(vE, 2);
+		vB.addEdge(vG, 8);
+		vE.addEdge(vG, 1);
+		vS.addEdge(vC,7);
+		vC.addEdge(vD,9);
+		vD.addEdge(vF,12);
+		vF.addEdge(vD, 2);
 		
-		 g.addEdge(vE, vB,1);
-	     g.addEdge(vE, vS,1);
-	     g.addEdge(vD, vS,1);
-	     g.addEdge(vD, vA,1);
-	     g.addEdge(vB, vC,1);
-	     g.addEdge(vC, vA,1);
+		System.out.println("dfs=");
+		ArrayList<Vertex> dfsoutput= g.dfs(vS);
+		for(Vertex v: dfsoutput)
+		{
+			System.out.println("v=" + v.getName());
+		}
+		
+		System.out.println("\nbfs=");
+		ArrayList<Vertex> bfsoutput= g.bfs(vS);
+		for(Vertex v: bfsoutput)
+		{
+			System.out.println("v=" + v.getName());
+		}
+		
+		System.out.println("\ndijkstra=");
+		HashMap<Vertex,Integer> djoutput = g.dijkstra(vS);
+		
+		for(Vertex v: djoutput.keySet())
+		{
+			System.out.println("v=" + v.getName() + " cost=" + djoutput.get(v));
+		}
+		
+		System.out.println("\nbellman_ford=");
+		HashMap<Vertex,Integer> bfoutput = g.bellman_ford(vS);
+		
+		for(Vertex v: bfoutput.keySet())
+		{
+			System.out.println("v=" + v.getName() + " cost=" + bfoutput.get(v));
+		}
 		
 		
 	}
