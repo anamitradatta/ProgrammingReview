@@ -3,6 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,11 @@ public class testGraph
 		{
 			name=n;
 			edges= new ArrayList<Edge>();
+		}
+		
+		public String toString()
+		{
+			return name;
 		}
 		
 		public String getName()
@@ -133,20 +139,20 @@ public class testGraph
 	}
 	
 	private int numVertices;
-	private ArrayList<Vertex> graph;
+	private ArrayList<Vertex> vertices;
 	boolean isUndirected;
 	
 	public testGraph()
 	{
 		numVertices=0;
-		graph=new ArrayList<Vertex>();
+		vertices=new ArrayList<Vertex>();
 		isUndirected=false;
 	}
 	
 	public testGraph(boolean isUd)
 	{
 		numVertices=0;
-		graph=new ArrayList<Vertex>();
+		vertices=new ArrayList<Vertex>();
 		isUndirected=isUd;
 	}
 	
@@ -155,9 +161,9 @@ public class testGraph
 		return numVertices;
 	}
 	
-	public ArrayList<Vertex> getGraph()
+	public ArrayList<Vertex> getVertices()
 	{
-		return graph;
+		return vertices;
 	}
 	
 	public ArrayList<Edge> getEdges()
@@ -165,7 +171,7 @@ public class testGraph
 		ArrayList<Edge> edges = new ArrayList<Edge>();
 		if(numVertices!=0)
 		{
-			for(Vertex v: graph)
+			for(Vertex v: vertices)
 			{
 				ArrayList<Edge> vEdges = v.getEdges();
 				edges.addAll(vEdges);
@@ -180,7 +186,7 @@ public class testGraph
 	
 	public void addVertex(Vertex v)
 	{
-		for(Vertex x: graph)
+		for(Vertex x: vertices)
 		{
 			if(x.getName().equals(v.getName()))
 			{
@@ -188,24 +194,24 @@ public class testGraph
 				return;
 			}
 		}
-		graph.add(v);
+		vertices.add(v);
 		numVertices++;
 	}
 	
 	public void removeVertex(Vertex v)
 	{
-		if (graph.remove(v)) numVertices--;
+		if (vertices.remove(v)) numVertices--;
 	}
 	
 	public void addEdge(Vertex v1, Vertex v2, int weight)
 	{
-		if(!graph.contains(v1))
+		if(!vertices.contains(v1))
 		{
 			System.out.println("v1 " + v1.getName() + " is not in graph");
 			return;
 		}
 		
-		if(!graph.contains(v2))
+		if(!vertices.contains(v2))
 		{
 			System.out.println("v2 " + v2.getName() + " is not in graph");
 			return;
@@ -271,7 +277,7 @@ public class testGraph
 	public ArrayList<Vertex> bfs(Vertex from)
 	{
 		ArrayList<Vertex> bfsl = new ArrayList<Vertex>();
-		if(!graph.contains(from))
+		if(!vertices.contains(from))
 		{
 			System.out.println("vertex " + from.getName() + " does not exist in the graph");
 			return null;
@@ -310,7 +316,7 @@ public class testGraph
 	public ArrayList<Vertex> dfs(Vertex from)
 	{
 		ArrayList<Vertex> dfsl = new ArrayList<Vertex>();
-		if(!graph.contains(from))
+		if(!vertices.contains(from))
 		{
 			System.out.println("vertex " + from.getName() + " does not exist in the graph");
 			return null;
@@ -497,8 +503,14 @@ public class testGraph
 	// Approach: DFS, returns when there's a back edge to a node previously visited
 	public boolean hasCycle(Vertex source)
 	{
+		if (isUndirected) 
+		{
+			System.out.println("Undirected graph always has cycles");
+			return true;
+		}
+		
 		ArrayList<Vertex> dfsl = new ArrayList<Vertex>();
-		if(!graph.contains(source))
+		if(!vertices.contains(source))
 		{
 			System.out.println("vertex " + source.getName() + " does not exist in the graph");
 			return false;
@@ -537,6 +549,86 @@ public class testGraph
 		return false;
 	}
 	
+	// Implementation : Kahn's Algorithm
+	// Note: A graph can have multiple topological sorts
+	//       This algorithm returns one possible arrangement
+	//       Can use queue or stack
+	public ArrayList<Vertex> topologicalSort()
+	{
+		if (isUndirected) 
+		{
+			System.out.println("Topological sort is not possible for undirected graph");
+			return null;
+		}
+		
+		ArrayList<Vertex> ts = new ArrayList<Vertex>();
+		HashSet<Vertex> verticesNoIncomingEdge = new HashSet<Vertex>(vertices);
+		HashMap<Vertex,Integer> vertexToIncomingEdgeCount = new HashMap<Vertex,Integer>();
+		
+		// find all vertices with no incoming edges
+		for(Vertex v : vertices)
+		{	
+			if(!vertexToIncomingEdgeCount.containsKey(v))
+			{
+				vertexToIncomingEdgeCount.put(v,0);
+			}
+			
+			for(Edge e : v.getEdges())
+			{
+				if (verticesNoIncomingEdge.contains(e.getTo()))
+				{
+					verticesNoIncomingEdge.remove(e.getTo());
+				}
+				
+				vertexToIncomingEdgeCount.put(e.getTo(),vertexToIncomingEdgeCount.getOrDefault(e.getTo(), 0)+1);
+			}
+		}
+		
+		Queue<Vertex> q = new LinkedList<Vertex>();
+		for(Vertex vv : verticesNoIncomingEdge)
+		{
+			q.offer(vv);
+		}
+		
+		// iterate through vertices with no incoming edges
+		while(!q.isEmpty())
+		{
+			// get vertex with no incoming edge and add to sorted list
+			Vertex vc = q.poll();
+			ts.add(vc);
+			
+			// iterative through vertices connected to current vertex
+			for(Edge ee: vc.getEdges())
+			{
+				Vertex toVertex = ee.getTo();
+				
+				// remove edge from graph
+				vertexToIncomingEdgeCount.put(toVertex,vertexToIncomingEdgeCount.get(toVertex)-1);
+				
+				// if the vertex has no more incoming edges, add to no incoming edge list
+				if(vertexToIncomingEdgeCount.get(toVertex)==0)
+				{
+					q.offer(toVertex);
+				}
+			}
+		}
+		
+		// all edges should have been removed from the graph, producing a topological sorted list
+		// for a valid directed acyclic graph
+		// if edges still remain, that means we have a cycle present in the graph
+		// topological sort not possible
+		for(Integer i :vertexToIncomingEdgeCount.values())
+		{
+			if(i.intValue()>0)
+			{
+				System.out.println("Graph contains cycle, topological sort not possible");
+				return null;
+			}
+		}
+		
+		return ts;
+	}
+	
 	public static void main(String[] args) 
 	{
 		testGraph g = new testGraph();
@@ -559,16 +651,13 @@ public class testGraph
 		g.addVertex(vF);
 		g.addVertex(vG);
 		
-		vS.addEdge(vA,1);
-		vS.addEdge(vB,2);
-		vA.addEdge(vB,5);
-		vB.addEdge(vE, 2);
-		vB.addEdge(vG, 8);
-		vE.addEdge(vG, 1);
-		vS.addEdge(vC,7);
-		vC.addEdge(vD,9);
-		vD.addEdge(vF,12);
-		vF.addEdge(vD, 2);
+		g.addEdge(vS,vA,4);
+		g.addEdge(vS,vB,4);
+		g.addEdge(vA,vC,4);
+		g.addEdge(vC,vD,4);
+		g.addEdge(vC,vE,4);
+		g.addEdge(vE,vF,4);
+		g.addEdge(vG,vC,4);
 		
 		System.out.println("dfs=");
 		ArrayList<Vertex> dfsoutput= g.dfs(vS);
@@ -600,7 +689,12 @@ public class testGraph
 			System.out.println("v=" + v.getName() + " cost=" + bfoutput.get(v));
 		}
 		
-		
+		System.out.println("\ntopolocial sort=");
+		ArrayList<Vertex> tso = g.topologicalSort();
+		for(Vertex v :tso)
+		{
+			System.out.println("v=" + v.getName());
+		}
 	}
 
 }
